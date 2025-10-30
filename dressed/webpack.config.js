@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -61,6 +62,10 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html',
         inject: 'body',
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || (isProduction ? 'production' : 'development')),
+        'process.env.REACT_APP_WEATHER_API_KEY': JSON.stringify(process.env.REACT_APP_WEATHER_API_KEY || ''),
       }),
     ],
     

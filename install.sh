@@ -225,9 +225,10 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
-# Start with Docker
-echo -e "${BLUE}Starting NGINX container...${NC}"
-docker-compose up --build -d
+# Start with Docker (no-cache build, force recreate)
+echo -e "${BLUE}Starting NGINX container (no-cache build)...${NC}"
+docker-compose build --no-cache --pull
+docker-compose up -d --force-recreate
 
 echo -e "${GREEN}🎉 App is running on http://localhost:80${NC}"
 echo -e "${BLUE}To stop: docker-compose down${NC}"

@@ -17,7 +17,7 @@ echo -e "${BLUE}================================${NC}"
 
 # Kill all previous processes
 echo -e "${BLUE}🧹 Stopping all previous processes...${NC}"
-pkill -f "vite" 2>/dev/null || true
+pkill -f "webpack" 2>/dev/null || true
 pkill -f "node.*dev" 2>/dev/null || true
 docker-compose down 2>/dev/null || true
 
@@ -32,9 +32,9 @@ fi
 
 cd dressed
 
-# Build the app
+# Build the app (webpack)
 echo -e "${BLUE}📦 Building the app...${NC}"
-npx vite build
+npm run build
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
@@ -51,9 +51,10 @@ if ! command -v docker &> /dev/null; then
 fi
 
 # Start with Docker
-echo -e "${BLUE}🐳 Starting NGINX container...${NC}"
+echo -e "${BLUE}🐳 Starting NGINX container (no-cache build)...${NC}"
 cd ..
-docker-compose up --build -d
+docker-compose build --no-cache --pull
+docker-compose up -d --force-recreate
 
 echo ""
 echo -e "${GREEN}🎉 Dressed app is running!${NC}"

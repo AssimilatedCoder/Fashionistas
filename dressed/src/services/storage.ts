@@ -238,11 +238,12 @@ export const loadMockData = async () => {
     
     // Load mock wardrobe items
     const { mockWardrobeItems } = await import('../data/mockTrends')
-    // Cast to mutable array to match WardrobeItem type (season arrays are readonly with 'as const')
-    await storageService.saveWardrobeItems(mockWardrobeItems.map(item => ({
+    // Accept readonly season arrays by copying to mutable
+    const mutableItems = mockWardrobeItems.map(item => ({
       ...item,
       season: [...item.season] as ('spring' | 'summer' | 'fall' | 'winter')[]
-    })))
+    }))
+    await storageService.saveWardrobeItems(mutableItems)
     
     console.log('Mock data loaded successfully')
   } catch (error) {
@@ -250,36 +251,4 @@ export const loadMockData = async () => {
   }
 }
 
-// Mock data loading for development
-export const loadMockData = async () => {
-  try {
-    // Load mock trends
-    const { mockTrends } = await import('../data/mockTrends')
-    await storageService.saveTrends(mockTrends)
-    
-    // Load mock wardrobe items
-    const { mockWardrobeItems } = await import('../data/mockTrends')
-    await storageService.saveWardrobeItems(mockWardrobeItems)
-    
-    console.log('Mock data loaded successfully')
-  } catch (error) {
-    console.error('Error loading mock data:', error)
-  }
-}
-
-// Mock data loading for development
-export const loadMockData = async () => {
-  try {
-    // Load mock trends
-    const { mockTrends } = await import('../data/mockTrends')
-    await storageService.saveTrends(mockTrends)
-    
-    // Load mock wardrobe items
-    const { mockWardrobeItems } = await import('../data/mockTrends')
-    await storageService.saveWardrobeItems(mockWardrobeItems)
-    
-    console.log('Mock data loaded successfully')
-  } catch (error) {
-    console.error('Error loading mock data:', error)
-  }
-}
+// (duplicates removed)

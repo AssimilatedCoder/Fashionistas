@@ -90,7 +90,7 @@ if [ ! -f .env ]; then
     echo -e "${GREEN}✅ Environment file created${NC}"
 fi
 
-# Create .env.local for development
+# Create .env.local for development (idempotent)
 cat > .env.local << 'EOF'
 REACT_APP_NAME=Dressed
 REACT_APP_VERSION=1.0.0
@@ -103,7 +103,7 @@ echo -e "${GREEN}✅ Development environment configured${NC}"
 # Create mock data directory
 mkdir -p src/data
 
-# Create mock data
+# Create mock data (idempotent overwrite)
 cat > src/data/mockTrends.ts << 'EOF'
 import { Trend } from '../types'
 
@@ -179,38 +179,8 @@ EOF
 
 echo -e "${GREEN}✅ Mock data created${NC}"
 
-# Update storage service to load mock data
-cat >> src/services/storage.ts << 'EOF'
-
-// Mock data loading for development
-export const loadMockData = async () => {
-  try {
-    // Load mock trends
-    const { mockTrends } = await import('../data/mockTrends')
-    await storageService.saveTrends(mockTrends)
-    
-    // Load mock wardrobe items
-    const { mockWardrobeItems } = await import('../data/mockTrends')
-    await storageService.saveWardrobeItems(mockWardrobeItems)
-    
-    console.log('Mock data loaded successfully')
-  } catch (error) {
-    console.error('Error loading mock data:', error)
-  }
-}
-EOF
-
-# Update AppContext to load mock data
-if ! grep -q "loadMockData" src/contexts/AppContext.tsx; then
-    sed -i '' 's/import { storageService } from '\''..\/services\/storage'\''/import { storageService, loadMockData } from '\''..\/services\/storage'\''/' src/contexts/AppContext.tsx
-    sed -i '' '/loadInitialData()/a\
-        // Load mock data in development\
-        if (import.meta.env.DEV) {\
-          loadMockData()\
-        }' src/contexts/AppContext.tsx
-fi
-
-echo -e "${GREEN}✅ Services updated with mock data${NC}"
+# Do NOT modify source files for mock data here; code is already in repo
+echo -e "${GREEN}✅ Mock data prepared${NC}"
 
 echo ""
 echo -e "${PURPLE}🎉 INSTALLATION COMPLETE!${NC}"
@@ -218,11 +188,8 @@ echo -e "${PURPLE}========================${NC}"
 echo ""
 echo -e "${GREEN}Your Dressed MVP is ready!${NC}"
 echo ""
-echo -e "${BLUE}To start the app:${NC}"
-echo -e "${YELLOW}  npm run dev${NC}"
-echo ""
-echo -e "${BLUE}Then open:${NC}"
-echo -e "${YELLOW}  http://localhost:5173${NC}"
+echo -e "${BLUE}Serving via NGINX container:${NC}"
+echo -e "${YELLOW}  http://localhost:80${NC}"
 echo ""
 echo -e "${BLUE}Features ready to test:${NC}"
 echo -e "${YELLOW}• Onboarding flow with style preferences${NC}"
@@ -244,48 +211,24 @@ docker-compose down 2>/dev/null || true
 
 echo -e "${GREEN}✅ Previous processes stopped${NC}"
 
-# Ask if user wants to start the app
-echo ""
-echo -e "${BLUE}Choose how to run the app:${NC}"
-echo -e "${YELLOW}1. Webpack dev server (development only)${NC}"
-echo -e "${YELLOW}2. NGINX container (recommended - stable, production-like)${NC}"
-echo ""
-read -p "Choose option (1/2): " -n 1 -r
-echo ""
+echo -e "${BLUE}🚀 Building and starting with NGINX...${NC}"
 
-if [[ $REPLY == "1" ]]; then
-    echo -e "${BLUE}🚀 Starting Webpack dev server...${NC}"
-    npm run dev
-elif [[ $REPLY == "2" ]]; then
-    echo -e "${BLUE}🚀 Building and starting with NGINX...${NC}"
-    
-    # Build the app
-    echo -e "${BLUE}Building app...${NC}"
-    npm run build
-    
-    # Check if Docker is installed
-    if ! command -v docker &> /dev/null; then
-        echo -e "${RED}❌ Docker not found!${NC}"
-        echo -e "${YELLOW}Installing Docker...${NC}"
-        
-        # Try to install Docker via Homebrew
-        if command -v brew &> /dev/null; then
-            brew install --cask docker
-            echo -e "${YELLOW}Please start Docker Desktop and run this script again${NC}"
-        else
-            echo -e "${YELLOW}Please install Docker Desktop from: https://www.docker.com/products/docker-desktop${NC}"
-            echo -e "${YELLOW}Then run: docker-compose up${NC}"
-        fi
-        exit 1
-    fi
-    
-    # Start with Docker
-    echo -e "${BLUE}Starting NGINX container...${NC}"
-    docker-compose up --build -d
-    
-    echo -e "${GREEN}🎉 App is running on http://localhost:80${NC}"
-    echo -e "${BLUE}To stop: docker-compose down${NC}"
-    echo -e "${BLUE}To view logs: docker-compose logs -f${NC}"
-else
-    echo -e "${GREEN}Run 'npm run dev' or 'docker-compose up' when ready!${NC}"
+# Build the app
+echo -e "${BLUE}Building app...${NC}"
+npm run build
+
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+    echo -e "${RED}❌ Docker not found!${NC}"
+    echo -e "${YELLOW}Please install Docker Desktop from: https://www.docker.com/products/docker-desktop${NC}"
+    echo -e "${YELLOW}Then run: docker-compose up${NC}"
+    exit 1
 fi
+
+# Start with Docker
+echo -e "${BLUE}Starting NGINX container...${NC}"
+docker-compose up --build -d
+
+echo -e "${GREEN}🎉 App is running on http://localhost:80${NC}"
+echo -e "${BLUE}To stop: docker-compose down${NC}"
+echo -e "${BLUE}To view logs: docker-compose logs -f${NC}"

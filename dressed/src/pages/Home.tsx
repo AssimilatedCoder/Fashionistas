@@ -31,6 +31,11 @@ const Home: React.FC = () => {
     })
   }
 
+  const handleGenerateWeatherOutfit = () => {
+    // Always generate with today's weather impact (occasion defaults to daily)
+    navigate('/outfit-generator', { state: { occasion: 'daily' as Occasion } })
+  }
+
   // Mock recent outfits data
   const recentOutfits = [
     { name: 'Casual Friday Look', date: 'Yesterday' },
@@ -84,9 +89,14 @@ const Home: React.FC = () => {
                   <p className="text-sm text-stoneGray">{weather.condition}</p>
                 </div>
               </div>
-              <div className="weather-info">
-                <MapPin className="w-3 h-3" />
-                <span>{weather.location}</span>
+              <div className="flex items-center gap-3">
+                <div className="weather-info">
+                  <MapPin className="w-3 h-3" />
+                  <span>{weather.location}</span>
+                </div>
+                <Button size="sm" variant="secondary" onClick={handleGenerateWeatherOutfit}>
+                  Generate for today
+                </Button>
               </div>
             </div>
           </Card>

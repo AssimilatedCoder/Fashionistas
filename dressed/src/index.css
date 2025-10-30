@@ -38,7 +38,7 @@
   }
   
   .btn-icon {
-    @apply w-11 h-11 bg-warmBeige text-charcoal hover:bg-softTaupe rounded-full;
+    @apply inline-flex items-center justify-center w-11 h-11 bg-warmBeige text-charcoal hover:bg-softTaupe rounded-full leading-none;
   }
   
   .btn-lg {

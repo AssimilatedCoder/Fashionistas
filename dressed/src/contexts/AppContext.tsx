@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react'
 import { AppState, UserProfile, WardrobeItem, Outfit, WeatherData, Trend } from '../types'
 import { storageService, loadMockData } from '../services/storage'
+import { weatherService } from '../services/weather'
 
 // Initial state
 const initialState: AppState = {
@@ -107,6 +108,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         // Load trends (mock data for now)
         const trends = await storageService.getTrends()
         dispatch({ type: 'SET_TRENDS', payload: trends })
+
+        // Load weather
+        let weather = await storageService.getWeather()
+        if (!weather) {
+          // Try geolocation first
+          const coords = await weatherService.getCurrentLocation()
+          if (coords) {
+            weather = await weatherService.getCurrentWeather(coords.lat, coords.lon)
+          } else if (profile?.location) {
+            weather = await weatherService.getWeatherByLocation(profile.location)
+          }
+          if (weather) {
+            await storageService.saveWeather(weather)
+          }
+        }
+        if (weather) {
+          dispatch({ type: 'SET_WEATHER', payload: weather })
+        }
 
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to load app data' })

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  dressed-app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./dressed/dist:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    container_name: dressed-nginx
+
+volumes:
+  nginx-html:

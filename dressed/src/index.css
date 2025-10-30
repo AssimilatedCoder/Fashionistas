@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-softTaupe;
+  }
+  
+  body {
+    @apply bg-ivory text-charcoal font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Button Components */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply bg-terracotta text-ivory hover:bg-burntSienna hover:shadow-terracotta-hover hover:-translate-y-0.5 active:bg-[#8F3F2E] active:shadow-terracotta px-7 py-3.5 rounded-xl shadow-terracotta;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-charcoal text-charcoal hover:bg-charcoal hover:text-ivory active:bg-[#1A1816] px-6 py-3 rounded-xl;
+  }
+  
+  .btn-tertiary {
+    @apply bg-transparent text-terracotta hover:bg-warmBeige active:bg-softTaupe px-5 py-3 rounded-xl;
+  }
+  
+  .btn-icon {
+    @apply w-11 h-11 bg-warmBeige text-charcoal hover:bg-softTaupe rounded-full;
+  }
+  
+  .btn-lg {
+    @apply h-12 px-8 text-base;
+  }
+  
+  .btn-sm {
+    @apply h-9 px-4 text-sm;
+  }
+
+  /* Card Components */
+  .card {
+    @apply rounded-2xl border border-softTaupe bg-ivory text-charcoal shadow-soft;
+  }
+  
+  .card-elevated {
+    @apply rounded-3xl bg-ivory p-7 shadow-elevated;
+  }
+  
+  .card-outfit {
+    @apply rounded-3xl border-2 border-softTaupe bg-warmBeige p-5 shadow-medium;
+  }
+  
+  .card-outfit-selected {
+    @apply border-terracotta shadow-strong;
+  }
+
+  /* Input Components */
+  .input {
+    @apply flex h-12 w-full rounded-xl border-2 border-softTaupe bg-ivory px-4 py-3.5 text-base file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-stoneGray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  .input-error {
+    @apply border-error;
+  }
+  
+  .input-success {
+    @apply border-success;
+  }
+
+  /* Navigation Components */
+  .nav-bottom {
+    @apply fixed bottom-0 left-0 right-0 z-50 bg-ivory border-t border-softTaupe h-16 shadow-soft;
+  }
+  
+  .nav-item {
+    @apply flex flex-col items-center justify-center text-xs font-medium text-stoneGray px-4 py-2;
+  }
+  
+  .nav-item-active {
+    @apply text-terracotta bg-warmBeige rounded-xl px-4 py-2;
+  }
+  
+  .nav-top {
+    @apply bg-ivory border-b border-softTaupe h-18 px-10;
+  }
+
+  /* Tag/Badge Components */
+  .tag {
+    @apply bg-warmBeige text-charcoal font-medium text-xs px-3 py-1.5 rounded-full border border-softTaupe;
+  }
+  
+  .tag-active {
+    @apply bg-terracotta text-ivory border-0;
+  }
+  
+  .tag-casual {
+    @apply bg-sage text-ivory;
+  }
+  
+  .tag-formal {
+    @apply bg-charcoal text-ivory;
+  }
+  
+  .tag-trendy {
+    @apply bg-dustyRose text-ivory;
+  }
+
+  /* Progress Components */
+  .progress-bar {
+    @apply bg-softTaupe h-1.5 rounded-full;
+  }
+  
+  .progress-fill {
+    @apply bg-terracotta h-full rounded-full transition-all duration-300;
+  }
+  
+  .spinner {
+    @apply w-8 h-8 border-3 border-softTaupe border-t-terracotta rounded-full animate-spin;
+  }
+
+  /* Modal Components */
+  .modal-overlay {
+    @apply fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50;
+  }
+  
+  .modal {
+    @apply bg-ivory rounded-3xl p-8 max-w-lg shadow-elevated;
+  }
+  
+  .modal-close {
+    @apply absolute top-4 right-4 text-stoneGray hover:text-charcoal;
+  }
+
+  /* Toast Components */
+  .toast {
+    @apply bg-charcoal text-ivory font-body text-sm px-5 py-4 rounded-xl shadow-strong;
+  }
+  
+  .toast-success {
+    @apply border-l-4 border-success;
+  }
+  
+  .toast-error {
+    @apply border-l-4 border-error;
+  }
+  
+  .toast-info {
+    @apply border-l-4 border-info;
+  }
+
+  /* Toggle/Switch Components */
+  .toggle {
+    @apply relative inline-flex h-7 w-12 items-center rounded-full bg-softTaupe transition-colors;
+  }
+  
+  .toggle-active {
+    @apply bg-terracotta;
+  }
+  
+  .toggle-thumb {
+    @apply inline-block h-6 w-6 transform rounded-full bg-ivory shadow-soft transition-transform;
+  }
+  
+  .toggle-thumb-active {
+    @apply translate-x-5;
+  }
+
+  /* Layout Components */
+  .container {
+    @apply max-w-7xl mx-auto px-5 md:px-10;
+  }
+  
+  .section {
+    @apply py-12 md:py-16;
+  }
+  
+  .grid-responsive {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6;
+  }
+
+  /* Outfit Specific Components */
+  .outfit-card {
+    @apply card-outfit hover:shadow-strong hover:-translate-y-1 transition-all duration-300;
+  }
+  
+  .outfit-photo {
+    @apply rounded-xl shadow-soft hover:scale-102 transition-transform duration-200;
+  }
+  
+  .match-score {
+    @apply text-terracotta font-bold text-lg;
+  }
+  
+  .weather-info {
+    @apply text-stoneGray text-sm flex items-center gap-1;
+  }
+
+  /* Wardrobe Components */
+  .wardrobe-item {
+    @apply card hover:shadow-medium hover:-translate-y-1 transition-all duration-300;
+  }
+  
+  .wardrobe-photo {
+    @apply w-full rounded-t-2xl;
+  }
+  
+  .wardrobe-info {
+    @apply p-4;
+  }
+  
+  .wardrobe-title {
+    @apply font-medium text-charcoal text-sm;
+  }
+  
+  .wardrobe-tags {
+    @apply text-stoneGray text-xs mt-1;
+  }
+
+  /* Trend Feed Components */
+  .trend-card {
+    @apply card-elevated hover:shadow-strong hover:-translate-y-1 transition-all duration-300;
+  }
+  
+  .trend-image {
+    @apply w-full rounded-2xl mb-4;
+  }
+  
+  .trend-title {
+    @apply font-semibold text-charcoal text-xl mb-2;
+  }
+  
+  .trend-description {
+    @apply text-stoneGray text-base mb-4;
+  }
+  
+  .trend-actions {
+    @apply flex items-center justify-between;
+  }
+  
+  .trend-likes {
+    @apply text-stoneGray text-sm flex items-center gap-1;
+  }
+  
+  .trend-save {
+    @apply text-stoneGray hover:text-terracotta transition-colors;
+  }
+
+  /* Onboarding Components */
+  .onboarding-option {
+    @apply border-2 border-softTaupe bg-warmBeige rounded-xl p-4 cursor-pointer transition-all duration-200 hover:border-terracotta/50;
+  }
+  
+  .onboarding-option-selected {
+    @apply border-terracotta bg-terracotta text-ivory;
+  }
+  
+  .onboarding-progress {
+    @apply w-full bg-softTaupe rounded-full h-1.5;
+  }
+  
+  .onboarding-progress-fill {
+    @apply bg-terracotta h-full rounded-full transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-fade-slide-up {
+    animation: fadeSlideUp 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  
+  .animate-pulse-soft {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .scale-102 {
+    transform: scale(1.02);
+  }
+  
+  .transition-250 {
+    transition: all 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+}

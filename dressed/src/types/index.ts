@@ -112,7 +112,7 @@ export interface AppState {
 export interface ButtonProps {
   children: React.ReactNode
   onClick?: () => void
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'icon' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   disabled?: boolean
   className?: string

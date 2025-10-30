@@ -92,10 +92,10 @@ fi
 
 # Create .env.local for development
 cat > .env.local << 'EOF'
-VITE_APP_NAME=Dressed
-VITE_APP_VERSION=1.0.0
-VITE_APP_ENV=development
-VITE_WEATHER_API_KEY=demo_key_for_testing
+REACT_APP_NAME=Dressed
+REACT_APP_VERSION=1.0.0
+REACT_APP_ENV=development
+REACT_APP_WEATHER_API_KEY=demo_key_for_testing
 EOF
 
 echo -e "${GREEN}✅ Development environment configured${NC}"
@@ -238,7 +238,7 @@ echo ""
 
 # Kill any existing processes
 echo -e "${BLUE}🧹 Cleaning up previous processes...${NC}"
-pkill -f "vite" 2>/dev/null || true
+pkill -f "webpack" 2>/dev/null || true
 pkill -f "node.*dev" 2>/dev/null || true
 docker-compose down 2>/dev/null || true
 
@@ -247,14 +247,14 @@ echo -e "${GREEN}✅ Previous processes stopped${NC}"
 # Ask if user wants to start the app
 echo ""
 echo -e "${BLUE}Choose how to run the app:${NC}"
-echo -e "${YELLOW}1. Vite dev server (development only)${NC}"
+echo -e "${YELLOW}1. Webpack dev server (development only)${NC}"
 echo -e "${YELLOW}2. NGINX container (recommended - stable, production-like)${NC}"
 echo ""
 read -p "Choose option (1/2): " -n 1 -r
 echo ""
 
 if [[ $REPLY == "1" ]]; then
-    echo -e "${BLUE}🚀 Starting Vite dev server...${NC}"
+    echo -e "${BLUE}🚀 Starting Webpack dev server...${NC}"
     npm run dev
 elif [[ $REPLY == "2" ]]; then
     echo -e "${BLUE}🚀 Building and starting with NGINX...${NC}"

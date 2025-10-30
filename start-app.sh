@@ -17,7 +17,7 @@ echo -e "${BLUE}========================${NC}"
 
 # Kill all previous processes
 echo -e "${BLUE}🧹 Stopping all previous processes...${NC}"
-pkill -f "vite" 2>/dev/null || true
+pkill -f "webpack" 2>/dev/null || true
 pkill -f "node.*dev" 2>/dev/null || true
 docker-compose down 2>/dev/null || true
 
@@ -32,6 +32,6 @@ fi
 
 cd dressed
 
-# Start with Vite on fixed port
-echo -e "${BLUE}⚡ Starting Vite development server on port 3000...${NC}"
-npm run dev -- --port 3000 --host
+# Start with Webpack on fixed port
+echo -e "${BLUE}⚡ Starting Webpack development server on port 3000...${NC}"
+npm run dev

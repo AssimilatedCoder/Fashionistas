@@ -117,7 +117,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     loadInitialData()
         // Load mock data in development
-        if (import.meta.env.DEV) {
+        if (process.env.NODE_ENV === 'development') {
           loadMockData()
         }  }, [])
 

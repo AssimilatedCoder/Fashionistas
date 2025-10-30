@@ -238,7 +238,7 @@ export const loadMockData = async () => {
     
     // Load mock wardrobe items
     const { mockWardrobeItems } = await import('../data/mockTrends')
-    // Cast to mutable array to match WardrobeItem type
+    // Cast to mutable array to match WardrobeItem type (season arrays are readonly with 'as const')
     await storageService.saveWardrobeItems(mockWardrobeItems.map(item => ({
       ...item,
       season: [...item.season] as ('spring' | 'summer' | 'fall' | 'winter')[]
